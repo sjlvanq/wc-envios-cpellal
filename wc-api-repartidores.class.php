@@ -45,10 +45,7 @@ class WC_REST_Repartidores_Controller {
 			$query .= $wpdb->prepare(" WHERE id = %d LIMIT 1", $param_id);
 		}
 		$query.=";";
-		$l = wc_get_logger();
-		$l->info($query);
 		$results = $wpdb->get_results($query);
-		$l->info("resultados",$results);
 		foreach ( $results as $row ) {
 			$repartidores[] = [
 				'id' => $row->id,
@@ -66,8 +63,6 @@ class WC_REST_Repartidores_Controller {
 	public function add_repartidor( $request ) {
 		global $wpdb;
 		$params = $request->get_params();
-		$l = wc_get_logger();
-		$l->info("parametros",$params);
 		if ( ! isset( $params['nombre'] ) || ! preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚüÜ\s]+$/', $params['nombre'] )) {
 			return new WP_Error( 'invalid_parameter', 'El nombre del repartidor ha sido omitido o contiene caracteres inválidos.', array( 'status' => 400 ) ); }
 		if ( isset($params['telefono']) && ! preg_match('/^[0-9]+$/', $params['telefono'] )) {
@@ -92,8 +87,6 @@ class WC_REST_Repartidores_Controller {
 	public function edit_repartidor( $request ) {
 		global $wpdb;
 		$params = $request->get_params();
-		$l = wc_get_logger();
-		$l->info("edit_repartidor",$params);
 		if( ! isset( $params['id'] ) || ! ctype_digit( $params['id'] )) {
 			return new WP_Error( 'invalid_parameter', 'El parámetro ID ha sido omitido o es inválido.', array( 'status' => 400 ) ); }
 		if ( ! isset( $params['nombre'] ) || ! preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚüÜ\s]+$/', $params['nombre'] )) {
