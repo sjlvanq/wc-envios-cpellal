@@ -1,5 +1,5 @@
 <?php
-require_once plugin_dir_path( __FILE__ ) . 'wc-api-repartidores.conf.php';
+require_once plugin_dir_path( __FILE__ ) . 'wc-envios-cpellal.conf.php';
 
 class WC_REST_Repartidores_Controller {
 	protected $namespace = 'wc/v3';
