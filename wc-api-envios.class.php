@@ -128,12 +128,12 @@ class WC_REST_Envios_Controller {
 		
 		try {
 			$query_orders = new WC_Order_Query( array(
-					'envio' => $params['id'],
-					'status' => 'processing'
+					'envio' => $params['id']
 			) );
 			$orders = $query_orders->get_orders();
 			foreach($orders as $order){
 				$order->update_meta_data(CAMPO_PEDIDO_METADATA_IDENVIO, -1);
+				$order->save();
 			}
 		} catch (Exception $e) {
 			$wpdb->query('ROLLBACK');
