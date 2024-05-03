@@ -126,7 +126,7 @@ class WC_REST_Envios_Controller {
 		}
 		$wpdb->query('START TRANSACTION');
 		
-		try:
+		try {
 			$query_orders = new WC_Order_Query( array(
 					'envio' => $params['id'],
 					'status' => 'processing'
@@ -135,7 +135,7 @@ class WC_REST_Envios_Controller {
 			foreach($orders as $order){
 				$order->update_meta_data(CAMPO_PEDIDO_METADATA_IDENVIO, -1);
 			}
-		catch (Exception $e) {
+		} catch (Exception $e) {
 			$wpdb->query('ROLLBACK');
 			return new WP_Error( 'error', 'Falló al intentar liberar los pedidos.', array( 'status' => 500 ) );
 		}
@@ -149,6 +149,7 @@ class WC_REST_Envios_Controller {
 			$wpdb->query('ROLLBACK');
 			return new WP_Error( 'error', 'No se pudo eliminar el envío.', array( 'status' => 500 ) );
 		}
+		$wpdb->query('COMMIT');
 	}
 	
 }
