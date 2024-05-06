@@ -52,6 +52,7 @@ function envioscpellal_repartidores_table_create() {
                 id INT NOT NULL AUTO_INCREMENT,
                 nombre VARCHAR(50),
                 telefono VARCHAR(15),
+                eliminado BOOLEAN DEFAULT FALSE,
                 PRIMARY KEY (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 

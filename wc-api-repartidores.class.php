@@ -40,9 +40,9 @@ class WC_REST_Repartidores_Controller {
 		$tabla_repartidores = $wpdb->prefix . TABLA_ENVIOSCPELLAL_REPARTIDORES;
 		$param_id = $request->get_param('id');
 		
-		$query = "SELECT id, nombre, telefono FROM $tabla_repartidores";
+		$query = "SELECT id, nombre, telefono FROM $tabla_repartidores WHERE eliminado = FALSE";
 		if( ! is_null( $param_id ) ) {
-			$query .= $wpdb->prepare(" WHERE id = %d LIMIT 1", $param_id);
+			$query .= $wpdb->prepare(" AND id = %d LIMIT 1", $param_id);
 		}
 		$query.=";";
 		$results = $wpdb->get_results($query);
@@ -117,10 +117,19 @@ class WC_REST_Repartidores_Controller {
 		if( ! isset( $params['id'] ) || ! ctype_digit( $params['id'] )) {
 			return new WP_Error( 'invalid_parameter', 'Parámetro ID faltante o inválido.', array( 'status' => 400 ) );
 		}
+		/*
 		$result = $wpdb->delete(
 			$wpdb->prefix . TABLA_ENVIOSCPELLAL_REPARTIDORES,
 			array( 'id' => $params['id'] ),
 			array( '%d' )
+		);
+		*/
+		$result = $wpdb->update(
+			$wpdb->prefix . TABLA_ENVIOSCPELLAL_REPARTIDORES,
+			array(
+				'eliminado' => 1
+			),
+			array( 'id' => $params['id'] )
 		);
 		if(!$result){
 			return new WP_Error( 'error', 'No se pudo eliminar el repartidor.', array( 'status' => 500 ) );
